@@ -4,6 +4,7 @@ set -e
 python manage.py makemigrations
 python manage.py migrate
 python manage.py create_super_user
+python manage.py create_sample_data
 
 if [[ ${DJANGO_BIND_ADDRESS+x} ]] && [[ ${DJANGO_BIND_PORT+x} ]];
 then
