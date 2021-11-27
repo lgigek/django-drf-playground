@@ -12,6 +12,10 @@ psycopg2-binary = "^2.9.2"
 django-model-utils = "^4.2.0"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+pytest-django = "^4.4.0"
+pytest-xdist = "^2.4.0"
 
 [tool.isort]
 force_single_line = true

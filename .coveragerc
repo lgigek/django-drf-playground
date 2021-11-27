@@ -1,0 +1,15 @@
+[report]
+show_missing = True
+omit =
+    gunicorn_config.py
+    manage.py
+    django_drf_playground/asgi.py
+    django_drf_playground/settings.py
+    django_drf_playground/urls.py
+    django_drf_playground/wsgi.py
+    django_drf_playground/support/db_router.py
+    **/migrations/**.py
+    **/management/commands/seed_db_**.py
+    django_drf_playground/apps/core/management/commands/create_super_user.py
+    django_drf_playground/apps/core/logger_utils.py
+    tests/**.py
