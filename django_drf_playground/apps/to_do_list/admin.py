@@ -6,8 +6,8 @@ from django_drf_playground.apps.to_do_list.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ["name"]
-    search_fields = ("id", "name")
+    list_display = ["name", "identifier"]
+    search_fields = ("id", "name", "identifier")
 
 
 @admin.register(Task)

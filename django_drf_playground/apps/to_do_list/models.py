@@ -16,9 +16,10 @@ class StandardModelMixin(models.Model):
 
 class User(StandardModelMixin):
     name = models.CharField(max_length=50)
+    identifier = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.name
+        return self.identifier
 
 
 class Task(StandardModelMixin):
