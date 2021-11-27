@@ -1,0 +1,53 @@
+[tool.poetry]
+name = "django-drf-playground"
+version = "0.1.0"
+description = "A simple to-do list to show some concepts of Django/DRF."
+authors = ["Lucas Gigek <lucasgigek@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.9"
+djangorestframework = "^3.12.4"
+psycopg2-binary = "^2.9.2"
+
+[tool.poetry.dev-dependencies]
+
+[tool.isort]
+force_single_line = true
+ensure_newline_before_comments = true
+line_length = 120
+skip_glob = ["**/migrations/*.py"]
+use_parentheses = true
+multi_line_output = 3
+include_trailing_comma = true
+lines_between_types = 1
+known_django = "django"
+known_third_party = ["urllib3", "rest_framework", "request_id_django_log", "pytest"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.black]
+line-length = 120
+target_version = ["py38"]
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | migrations
+    | settings.py
+  )/
+)
+'''
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

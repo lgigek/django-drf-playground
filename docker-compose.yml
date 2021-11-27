@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: django-drf-playground-db
+    image: postgres:10.1-alpine
+    ports:
+      - 5432:5432
+
+  app:
+    container_name: django-drf-playground
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
+      - .:/app
+    ports:
+      - "${DJANGO_BIND_PORT}:${DJANGO_BIND_PORT}"
+    depends_on:
+      - db
+    command:
+      [
+          "./scripts/wait-for-it.sh",
+          "${DB_HOST}:${DB_PORT}",
+          "-t",
+          "120",
+          "--",
+          "./scripts/start-for-local-development.sh",
+      ]
