@@ -1,3 +1,5 @@
+import logging
+
 from typing import Optional
 
 from rest_framework.request import Request
@@ -6,6 +8,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from django_drf_playground.apps.to_do_list.drf.v1.serializers.user import FetchUserSerializer
 from django_drf_playground.apps.to_do_list.models import User
+
+logger = logging.getLogger(__name__)
 
 
 class UserModelViewSet(ModelViewSet):
@@ -44,6 +48,8 @@ class UserModelViewSet(ModelViewSet):
             }
         """
 
+        logger.info("Received a request to fetch a specific User")
+
         response = super().retrieve(request, pk, *args, **kwargs)
         return response
 
@@ -68,6 +74,8 @@ class UserModelViewSet(ModelViewSet):
               ...
             ]
         """
+
+        logger.info("Received a request to fetch a list of Users")
 
         response = super().list(request, *args, **kwargs)
         return response
