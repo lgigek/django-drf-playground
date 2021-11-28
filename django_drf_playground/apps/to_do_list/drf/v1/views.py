@@ -2,10 +2,12 @@ import logging
 
 from typing import Optional
 
+from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from django_drf_playground.apps.to_do_list.drf.v1.serializers.user import CreateUserSerializer
 from django_drf_playground.apps.to_do_list.drf.v1.serializers.user import FetchUserSerializer
 from django_drf_playground.apps.to_do_list.models import User
 
@@ -22,8 +24,7 @@ class UserModelViewSet(ModelViewSet):
         request_action_to_serializer = {
             "retrieve": FetchUserSerializer,
             "list": FetchUserSerializer,
-            "update": None,
-            "destroy": None,
+            "create": CreateUserSerializer,
         }
 
         return request_action_to_serializer[self.action]
@@ -79,3 +80,47 @@ class UserModelViewSet(ModelViewSet):
 
         response = super().list(request, *args, **kwargs)
         return response
+
+    def create(self, request: Request, *args, **kwargs) -> Response:
+        """
+        Creates a User.
+
+        It expects:
+        - POST as http method;
+        - A JSON like this:
+            {
+                "name": "some name",
+                "identifier": "some unique identifier"
+            }
+
+        It returns:
+        - HTTP status = 201;
+        - A JSON like this:
+            [
+              {
+                "id": "f0b5beaf-2df7-4793-abb1-04303940b169",
+                "created_at": "2021-11-27T22:46:52.448449Z",
+                "updated_at": "2021-11-27T22:46:52.448504Z",
+                "name": "some name",
+                "identifier": "some unique identifier"
+              },
+              ...
+            ]
+        """
+
+        request_data = request.data
+        logger.info("Received a request with the following data: %s", request_data)
+
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request_data)
+
+        logger.info("Checking if received data is valid.")
+        if not serializer.is_valid():
+            logger.warning("Received a request without valid body, returning 400.")
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+        logger.info("Received data is valid, proceeding with User creation.")
+        user = serializer.create(serializer.validated_data)
+
+        logger.info("Everything went good, returning 201!")
+        return Response(status=status.HTTP_201_CREATED, data=user)
